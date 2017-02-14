@@ -13,6 +13,8 @@ import java.util.List;
 public class UserRepository {
 
     public List<User> findAll(){
+
+        System.out.println("Repository Layer - users method is called");
         List<User> users = new ArrayList<>();
 
         users.add(new User(1L, "Benjmain", "Bundang"));
