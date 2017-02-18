@@ -5,23 +5,19 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by benjamin on 2017. 2. 18..
  */
 public class LoggingHandlerIntercepter extends HandlerInterceptorAdapter {
 
-    private Map<String, Long> elapseTimeMap = new ConcurrentHashMap<>();
+    private static final String ATTRIBUTE_BEGIN_TIME = "ATTR_BEGIN_TIME";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String sessionId = request.getSession().getId();
         Long currentTime = System.currentTimeMillis();
-
-        elapseTimeMap.put(sessionId, currentTime);
+        request.setAttribute(ATTRIBUTE_BEGIN_TIME, currentTime);
 
         return super.preHandle(request, response, handler);
     }
@@ -29,8 +25,7 @@ public class LoggingHandlerIntercepter extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        String sessionId = request.getSession().getId();
-        long beginTime = elapseTimeMap.remove(sessionId);
+        long beginTime = (long) request.getAttribute(ATTRIBUTE_BEGIN_TIME);
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
