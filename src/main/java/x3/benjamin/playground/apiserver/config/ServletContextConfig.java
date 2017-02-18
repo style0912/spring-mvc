@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import x3.benjamin.playground.apiserver.intercepter.LoggingHandlerIntercepter;
 
 import java.util.List;
 
@@ -36,4 +38,17 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         jsonConverter.setObjectMapper(objectMapper);
         return jsonConverter;
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loggingHandlerIntercepter());
+        super.addInterceptors(registry);
+    }
+
+    @Bean
+    public LoggingHandlerIntercepter loggingHandlerIntercepter() {
+        LoggingHandlerIntercepter intercepter = new LoggingHandlerIntercepter();
+        return intercepter;
+    }
+
 }
