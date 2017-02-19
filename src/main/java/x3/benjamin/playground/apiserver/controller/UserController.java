@@ -39,12 +39,11 @@ public class UserController {
                                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            System.out.println("---- validator count : " + bindingResult.getErrorCount());
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            for (ObjectError error : errors) {
-                System.out.println(error.getObjectName() + ":" + error.getDefaultMessage());
-            }
-            ResponseEntity responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+            ObjectError error = bindingResult.getAllErrors().stream().findFirst().get();
+            String errorMessage = error.getDefaultMessage();
+
+            ResponseEntity responseEntity = new ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
             return responseEntity;
         }
 
