@@ -15,8 +15,7 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan(basePackages = {
-        "x3.benjamin.playground.apiserver.repository",
-        "x3.benjamin.playground.apiserver.service"
+        "x3.benjamin.playground.apiserver"
 })
 public class RootApplicationContextConfig {
 

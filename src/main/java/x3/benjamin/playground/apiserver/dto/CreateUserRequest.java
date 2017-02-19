@@ -9,6 +9,5 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class CreateUserRequest {
-    @NotNull
     private String name;
 }
